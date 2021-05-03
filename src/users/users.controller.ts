@@ -1,18 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UserDocument } from '../dataBase/User.schema';
+import { User, UserDocument } from '../dataBase/User.schema';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { UserDto } from '../dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('/one')
-  getHello(): Promise<UserDocument[]> {
-    return this.usersService.getHello();
+  @ApiOperation({ summary: 'Create user' })
+  @ApiResponse({ status: 200, type: User })
+  @Post('/')
+  getHello(@Body() user: UserDto): Promise<UserDocument> {
+    return this.usersService.createUser(user);
   }
 
-  @Get('/two')
-  getUsers(): Array<any> {
-    return [{ id: 1, name: 2 }];
+  @Get('/')
+  getUsers(): Promise<UserDocument[]> {
+    return this.usersService.getHello();
   }
 }
