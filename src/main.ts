@@ -1,15 +1,16 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
+import { AppModule } from './app.module';
+import { variables } from './config';
 
 async function start() {
   const app = await NestFactory.create(AppModule);
-  console.log(process.env.PORT);
+  console.log(variables.PORT);
 
   _swaggerBuilder(app);
 
-  await app.listen(process.env.PORT);
+  await app.listen(variables.PORT);
 }
 
 start();
